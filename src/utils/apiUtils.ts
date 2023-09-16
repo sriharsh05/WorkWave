@@ -1,4 +1,4 @@
-const API_BASE_URL = "https://tsapi.coronasafe.live/api/";
+const API_BASE_URL = "https://reactforall.onrender.com/api/";
 
 type RequestMethod = "GET" | "POST" | "PATCH" | "DELETE" | "PUT";
 
@@ -52,4 +52,18 @@ export const login = (username: string, password: string) => {
 
 export const me = () => {
   return request("users/me/", "GET", {});
+};
+
+export const signup = (
+  username: string,
+  email: string,
+  password1: string,
+  password2: string,
+) => {
+  return request("auth/registration/", "POST", {
+    username,
+    email,
+    password1,
+    password2,
+  });
 };

@@ -1,10 +1,12 @@
 import { useRoutes } from "raviger";
-import Login from "../components/Login";
+import SignIn from "../components/SignIn";
+import SignUp from "../components/SignUp";
 
 export default function LoginRouter() {
   const routes = {
-    "/login": () => <Login />,
+    "/signin": () => <SignIn />,
+    "/signup": () => <SignUp />,
   };
-  let routeResult = useRoutes(routes) || <Login />;
+  let routeResult = useRoutes(routes) || <SignIn />;
   return routeResult;
 }
