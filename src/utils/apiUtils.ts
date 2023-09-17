@@ -1,4 +1,4 @@
-import { Board } from "../types/boardTypes";
+import { Board, Stage } from "../types/boardTypes";
 import { PaginationParams } from "../types/common";
 
 const API_BASE_URL = "https://reactforall.onrender.com/api/";
@@ -81,4 +81,12 @@ export const listBoards = (pageParams: PaginationParams) => {
 
 export const deleteBoard = (boardID: number) => {
   return request(`boards/${boardID}/`, "DELETE");
+};
+
+export const createStage = (stage: Stage) => {
+  return request("status/", "POST", stage);
+};
+
+export const listStages = () => {
+  return request("status/", "GET");
 };
