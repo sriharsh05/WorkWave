@@ -4,10 +4,12 @@ import { Board } from "../../types/boardTypes";
 import Modal from "../common/modal";
 import CreateBoard from "./CreateBoard";
 import { deleteBoard, listBoards } from "../../utils/apiUtils";
+import LoadingSpinner from "../LoadingSpinner";
 
 const fetchBoards = (
   setBoardsCB: (value: Board[]) => void,
   setCountCB: (count: number) => void,
+  setLoading: (loading: boolean) => void,
   offset: number,
   limit: number
 ) => {
@@ -15,25 +17,27 @@ const fetchBoards = (
     .then((data) => {
       setCountCB(data.count);
       setBoardsCB(data.results);
+      setLoading(false);
     })
     .catch((error) => console.log(error));
 };
 
-export function Boards() {
+export default function Boards() {
   const [{ search }, setQuery] = useQueryParams();
   const [searchString, setSearchString] = useState("");
   const [boards, setBoards] = useState<Board[]>([]);
   const [openBoard, setOpenBoard] = useState(false);
   const [offset, setOffset] = useState(0);
   const [count, setCount] = useState(0);
+  const [loading, setLoading] = useState(true);
   const limit = 4;
 
   const deleteLocalBoard = (id: number) => {
     setBoards((board) => board.filter((board) => board.id !== id));
-    deleteBoard(id).then(() => fetchBoards(setBoards, setCount, offset, limit));
+    deleteBoard(id).then(() => fetchBoards(setBoards, setCount,setLoading, offset, limit));
   };
 
-  useEffect(() => fetchBoards(setBoards, setCount, offset, limit), [offset]);
+  useEffect(() => fetchBoards(setBoards, setCount,setLoading, offset, limit), [offset]);
 
   return (
     <div className="mt-12">
@@ -72,6 +76,11 @@ export function Boards() {
           Create Board
         </button>
       </div>
+
+      {loading ? (
+        <LoadingSpinner />
+      ) : (
+      <div>
       {boards.length > 0 && (
         <div className="flex-col flex justify-center items-center">
           {boards
@@ -138,9 +147,12 @@ export function Boards() {
           </div>
         </div>
       )}
-      {boards.length === 0 && (
+      {(boards.length === 0) && (
         <p className="text-gray-700 mt-2">There are no forms created!</p>
       )}
+      </div>
+      )}
+
       <Modal Open={openBoard} closeCB={() => setOpenBoard(false)}>
         <CreateBoard />
       </Modal>
