@@ -83,6 +83,14 @@ export const deleteBoard = (boardID: number) => {
   return request(`boards/${boardID}/`, "DELETE");
 };
 
+export const getBoardById = (id: number) => {
+  return request(`boards/${id}/`, "GET");
+};
+
+export const updateBoard = (boardID: number, board: Partial<Board>) => {
+  return request(`boards/${boardID}/`, "PATCH", board);
+};
+
 export const createStage = (stage: Stage) => {
   return request("status/", "POST", stage);
 };
