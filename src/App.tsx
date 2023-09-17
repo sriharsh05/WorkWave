@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import logo from './logo.svg';
 import { User } from './types/UserTypes';
 import LoginRouter from './router/LoginRouter';
 import AppRouter from './router/AppRouter';
 import { me } from './utils/apiUtils';
+import AppContainer from './AppContainer';
 
 function App() {
 
@@ -26,11 +26,15 @@ function App() {
   }, []);
 
   return (
-      currentUser.username && currentUser.username?.length > 0 ? (
+      <div className='h-full'>
+      {currentUser.username && currentUser.username?.length > 0 ? (
+        <AppContainer>
        <AppRouter currentUser={currentUser} />
+       </AppContainer>
       ) : (
         <LoginRouter />
-      )
+      )}
+      </div>
   );
   
 }
