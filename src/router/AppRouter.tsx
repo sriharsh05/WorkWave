@@ -4,7 +4,6 @@ import About from "../components/About";
 import { Suspense, lazy } from "react";
 import LoadingSpinner from "../components/LoadingSpinner";
 
-
 const Boards = lazy(() => import("../components/Boards/Boards"));
 
 export default function AppRouter({ currentUser }: { currentUser: User }) {
@@ -12,14 +11,13 @@ export default function AppRouter({ currentUser }: { currentUser: User }) {
     "/": () => <Redirect to="/boards" />,
     "/signin": () => <Redirect to="/" />,
     "/signup": () => <Redirect to="/" />,
-    "/about": ()=> (<About />),
+    "/about": () => <About />,
     "/boards": () => (
       <Suspense fallback={<LoadingSpinner />}>
-         <Boards />
+        <Boards />
       </Suspense>
-       
     ),
   };
-  let routeResult = useRoutes(routes)
+  let routeResult = useRoutes(routes);
   return routeResult;
 }
