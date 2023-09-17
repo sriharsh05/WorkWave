@@ -2,7 +2,7 @@ import { Link } from "raviger";
 import React from "react";
 import { User } from "../types/UserTypes";
 
-export default function Home({ currentUser }: { currentUser: User }) {
+export default function Boards({ currentUser }: { currentUser: User }) {
   return (
     <div className="flex flex-col items-center h-full text-gray-900 justify-center">
        <div className="flex">This is home page</div> 
@@ -16,7 +16,6 @@ export default function Home({ currentUser }: { currentUser: User }) {
       >
         <span className="hidden sm:block">Sign out</span>
       </button>
-
     </div>
     
   );
