@@ -48,7 +48,7 @@ export default function CreateBoard() {
                 title: e.target.value,
               })
             }
-            className="w-full p-2 my-2 border-2 border-gray-200 rounded-lg"
+            className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-slate-600 sm:text-sm sm:leading-6"
           />
           {errors.title && <p className="text-red-500">{errors.title}</p>}
         </div>
@@ -70,7 +70,7 @@ export default function CreateBoard() {
                 description: e.target.value,
               })
             }
-            className="w-full p-2 my-2 border-2 border-gray-200 rounded-lg"
+            className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-slate-600 sm:text-sm sm:leading-6"
           />
           {errors.description && (
             <p className="text-red-500">{errors.description}</p>
@@ -78,7 +78,7 @@ export default function CreateBoard() {
         </div>
         <button
           type="submit"
-          className="w-full bg-sky-700 hover:bg-sky-900 text-white font-bold py-2 px-4 m-4 rounded-lg"
+          className="flex w-full justify-center rounded-md bg-slate-900 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-slate-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-600"
         >
           Create
         </button>
