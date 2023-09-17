@@ -78,3 +78,7 @@ export const createBoard = (board: Board) => {
 export const listBoards = (pageParams: PaginationParams) => {
   return request('boards/', 'GET', pageParams);
 }
+
+export const deleteBoard = (boardID: number) => {
+  return request(`boards/${boardID}/`, "DELETE");
+};

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link, useQueryParams } from "raviger";
-import { Board } from "../types/boardTypes";
-import Modal from "./common/modal";
-import CreateBoard from "./Boards/CreateBoard";
-import { listBoards } from "../utils/apiUtils";
+import { Board } from "../../types/boardTypes";
+import Modal from "../common/modal";
+import CreateBoard from "./CreateBoard";
+import { deleteBoard, listBoards } from "../../utils/apiUtils";
 
 const fetchBoards = (
   setBoardsCB: (value: Board[]) => void,
@@ -27,6 +27,11 @@ export function Boards() {
   const [offset, setOffset] = useState(0);
   const [count, setCount] = useState(0);
   const limit = 2;
+
+  const deleteLocalBoard = (id: number) => {
+    setBoards((board) => board.filter((board) => board.id !== id));
+    deleteBoard(id).then(() => fetchBoards(setBoards, setCount, offset, limit));
+  };
 
   useEffect(() => fetchBoards(setBoards, setCount, offset, limit), [offset]);
 
@@ -73,24 +78,25 @@ export function Boards() {
             .filter((board) =>
               board.title.toLowerCase().includes(search?.toLowerCase() || "")
             )
-            .map((form) => (
+            .map((board) => (
               <div
                 className="flex w-full my-2 bg-sky-200 border rounded-lg border-gray-600 "
-                key={form.id}
+                key={board.id}
               >
                 <div className="flex flex-col w-full">
                   <h2 className="flex font-medium text-lg px-2">
-                    {form.title}
+                    {board.title}
                   </h2>
-                  <h2 className="flex px-2">{form.description}</h2>
+                  <h2 className="flex px-2">{board.description}</h2>
                 </div>
                 <Link
-                  href={`/forms/${form.id}`}
+                  href={`/forms/${board.id}`}
                   className="bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-4 m-4 rounded-lg"
                 >
                   Open
                 </Link>
                 <button
+                   onClick={() => deleteLocalBoard(board.id)}
                   className="bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-4 m-4 rounded-lg"
                 >
                   Delete

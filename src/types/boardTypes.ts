@@ -1,5 +1,5 @@
 export type Board = {
-    id?: number;
+    id: number;
     title: string;
     description: string;
   };

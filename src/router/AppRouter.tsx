@@ -1,7 +1,7 @@
 import { Redirect, useRoutes } from "raviger";
 import { User } from "../types/UserTypes";
 import About from "../components/About";
-import { Boards } from "../components/Boards";
+import { Boards } from "../components/Boards/Boards";
 
 
 export default function AppRouter({ currentUser }: { currentUser: User }) {
