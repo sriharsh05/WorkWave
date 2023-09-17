@@ -1,14 +1,18 @@
 import React, { useState } from "react";
 import { Link, navigate } from "raviger";
 import { login } from "../utils/apiUtils";
+import LoadingSpinner from "./LoadingSpinner";
 
 const SignIn = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [loading, setLoading] = useState(false);
+
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
+      setLoading(true);
       const data = await login(username, password);
       localStorage.setItem("token", data.token);
       navigate("/");
@@ -27,6 +31,10 @@ const SignIn = () => {
             Sign in to your account
           </h2>
         </div>
+
+        {loading ? (
+          <LoadingSpinner />
+        ) : (
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <form className="space-y-6" onSubmit={handleSubmit}>
@@ -89,6 +97,8 @@ const SignIn = () => {
             </Link>
           </p>
         </div>
+      )}
+
         </div>
       </div>
     </div>

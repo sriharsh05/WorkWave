@@ -1,16 +1,20 @@
 import React, { useState } from "react";
 import { Link, navigate } from "raviger";
 import { login, signup } from "../utils/apiUtils";
+import LoadingSpinner from "./LoadingSpinner";
 
 const SignUp = () => {
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState("");
   const [password1, setPassword1] = useState("");
   const [password2, setPassword2] = useState("");
+  const [loading, setLoading] = useState(false);
+
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
+      setLoading(true);
       await signup(username, email, password1, password2);
       const data = await login(username, password1);
       if (data) {
@@ -35,6 +39,11 @@ const SignUp = () => {
             Sign up to your account
           </h2>
         </div>
+
+        {loading ? (
+          <LoadingSpinner
+           />
+        ) : ( 
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <form className="space-y-6" onSubmit={handleSubmit}>
@@ -134,6 +143,8 @@ const SignUp = () => {
             </Link>
           </p>
         </div>
+        )}
+
         </div>
       </div>
     </div>

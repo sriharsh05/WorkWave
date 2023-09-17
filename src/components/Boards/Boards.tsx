@@ -39,6 +39,7 @@ export default function Boards() {
   const deleteLocalBoard = (id: number) => {
     setBoards((board) => board.filter((board) => board.id !== id));
     deleteBoard(id).then(() => fetchBoards(setBoards, setCount,setLoading, offset, limit));
+    setDeleteBoardModal(false);
   };
 
   useEffect(() => fetchBoards(setBoards, setCount,setLoading, offset, limit), [offset]);

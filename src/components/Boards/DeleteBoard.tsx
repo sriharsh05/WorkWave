@@ -20,7 +20,6 @@ export default function DeleteBoard({
         <button
           onClick={() => {
              deleteBoard(deletedBoardID);
-             window.location.reload();
           }}
           className="w-full px-3 mt-4 py-1  font-semibold rounded-sm  text-center text-md bg-red-500 text-white"
         >
