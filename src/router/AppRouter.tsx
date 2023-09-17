@@ -1,7 +1,7 @@
 import { Redirect, useRoutes } from "raviger";
 import { User } from "../types/UserTypes";
-import Boards from "../components/Boards";
 import About from "../components/About";
+import { Boards } from "../components/Boards";
 
 
 export default function AppRouter({ currentUser }: { currentUser: User }) {
@@ -11,7 +11,7 @@ export default function AppRouter({ currentUser }: { currentUser: User }) {
     "/signup": () => <Redirect to="/" />,
     "/about": ()=> (<About />),
     "/boards": () => (
-        <Boards currentUser={currentUser} />
+        <Boards />
     ),
   };
   let routeResult = useRoutes(routes)

@@ -1,3 +1,6 @@
+import { Board } from "../types/boardTypes";
+import { PaginationParams } from "../types/common";
+
 const API_BASE_URL = "https://reactforall.onrender.com/api/";
 
 type RequestMethod = "GET" | "POST" | "PATCH" | "DELETE" | "PUT";
@@ -12,7 +15,7 @@ export const request = async (
   if (method === "GET") {
     const requestParams = data
       ? `?${Object.entries(data)
-          .map((key, value) => `${key}=${value}`)
+          .map((entry) => `${entry[0]}=${entry[1]}`)
           .join("&")}`
       : "";
     url = `${API_BASE_URL}${endpoint}${requestParams}`;
@@ -67,3 +70,11 @@ export const signup = (
     password2,
   });
 };
+
+export const createBoard = (board: Board) => {
+  return request("boards/", "POST", board);
+};
+
+export const listBoards = (pageParams: PaginationParams) => {
+  return request('boards/', 'GET', pageParams);
+}
