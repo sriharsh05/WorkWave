@@ -5,6 +5,7 @@ import Modal from "../common/modal";
 import CreateBoard from "./CreateBoard";
 import { deleteBoard, listBoards } from "../../utils/apiUtils";
 import LoadingSpinner from "../LoadingSpinner";
+import DeleteBoard from "./DeleteBoard";
 
 const fetchBoards = (
   setBoardsCB: (value: Board[]) => void,
@@ -27,10 +28,13 @@ export default function Boards() {
   const [searchString, setSearchString] = useState("");
   const [boards, setBoards] = useState<Board[]>([]);
   const [openBoard, setOpenBoard] = useState(false);
+  const [deleteBoardModal, setDeleteBoardModal] = useState(false);
   const [offset, setOffset] = useState(0);
   const [count, setCount] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [deletedBoardID, setDeletedBoardID] = useState(0);
   const limit = 4;
+
 
   const deleteLocalBoard = (id: number) => {
     setBoards((board) => board.filter((board) => board.id !== id));
@@ -105,7 +109,10 @@ export default function Boards() {
                   Open
                 </Link>
                 <button
-                   onClick={() => deleteLocalBoard(board.id)}
+                    onClick={() => {
+                      setDeletedBoardID(board.id);
+                      setDeleteBoardModal(true);
+                      }}
                    className="bg-slate-700 hover:bg-slate-900 text-white shadow-sm text-sm font-semibold py-2 px-4 m-4 rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-600"
                    >
                   Delete
@@ -148,13 +155,16 @@ export default function Boards() {
         </div>
       )}
       {(boards.length === 0) && (
-        <p className="text-gray-700 mt-2">There are no forms created!</p>
+        <p className="text-gray-700 mt-2">There are no boards created!</p>
       )}
       </div>
       )}
 
       <Modal Open={openBoard} closeCB={() => setOpenBoard(false)}>
         <CreateBoard />
+      </Modal>
+      <Modal Open={deleteBoardModal} closeCB={() => setDeleteBoardModal(false)}>
+        <DeleteBoard deleteBoard={deleteLocalBoard} deletedBoardID = {deletedBoardID} />
       </Modal>
     </div>
     </div> 
