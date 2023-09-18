@@ -3,7 +3,7 @@ import { Board, Stage, TaskData } from "../../types/boardTypes";
 import { getBoardById, listStages, deleteStage, listTasks } from "../../utils/apiUtils";
 import LoadingSpinner from "../LoadingSpinner";
 import Modal from "../common/modal";
-import CreateStage from "../CreateStage";
+import CreateStage from "./CreateStage";
 import EditBoard from "../Boards/EditBoard";
 import { navigate } from "raviger";
 import { StageCard } from "./StageCard";

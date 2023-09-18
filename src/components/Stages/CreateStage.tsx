@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Stage, Errors, validateStage } from "../types/boardTypes";
-import { createStage } from "../utils/apiUtils";
+import { Stage, Errors, validateStage } from "../../types/boardTypes";
+import { createStage } from "../../utils/apiUtils";
 
 export default function CreateStage({
     addNewStage,

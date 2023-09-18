@@ -6,6 +6,7 @@ import CreateBoard from "./CreateBoard";
 import { deleteBoard, listBoards } from "../../utils/apiUtils";
 import LoadingSpinner from "../LoadingSpinner";
 import DeleteBoard from "./DeleteBoard";
+import { NextIcon, PreviousIcon, TrashIcon } from "../icons";
 
 const fetchBoards = (
   setBoardsCB: (value: Board[]) => void,
@@ -123,7 +124,7 @@ export default function Boards() {
                         }}
                         className="bg-slate-700 hover:bg-slate-900 text-white shadow-sm text-sm font-semibold py-2 px-4 m-4 rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-600"
                       >
-                        Delete
+                        <TrashIcon/>
                       </button>
                     </div>
                   ))}
@@ -137,7 +138,7 @@ export default function Boards() {
                       }}
                       className="bg-slate-700 hover:bg-slate-900 text-white shadow-sm text-sm font-semibold py-2 px-4 mx-4 rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-600"
                     >
-                      <span className="font-semibold">Prev</span>
+                      <span className="font-semibold"><PreviousIcon/></span>
                     </button>
                     <div className="w-full text-sm bg-slate-200 text-gray-900">
                       <p className="text-gray-700 text-center">
@@ -159,7 +160,7 @@ export default function Boards() {
                       }}
                       className="bg-slate-700 hover:bg-slate-900 text-white shadow-sm text-sm font-semibold py-2 px-4 mx-4 rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-600"
                     >
-                      <p className="font-semibold">Next</p>
+                      <p className="font-semibold"><NextIcon/></p>
                     </button>
                   </div>
                 </div>

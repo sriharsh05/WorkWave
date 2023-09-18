@@ -1,5 +1,6 @@
 import React from "react";
 import { TaskData } from "../../types/boardTypes";
+import { EditIcon, TrashIcon } from "../icons";
 
 export const TaskCard = ({
   task,
@@ -18,9 +19,15 @@ export const TaskCard = ({
             </div>
             <button
                       onClick={() => task.id}
+                      className="flex mx-1 ml-auto text-slate-600 hover:text-slate-800"
+                    >
+                      <EditIcon />
+                    </button>  
+            <button
+                      onClick={() => task.id}
                       className="flex mx-1 text-slate-600 hover:text-slate-800"
                     >
-                      Delete
+                      <TrashIcon/>
               </button>  
           </div>
           <div className="flex my-2 justify-between ">

@@ -27,7 +27,7 @@ export default function EditStage({
   };
   return (
     <div className="w-full max-w-lg divide-y divide-gray-200">
-      <h2 className="text-2xl my-2 pl-5">Create Board</h2>
+      <h2 className="text-2xl my-2 pl-5">Edit Stage</h2>
       <form onSubmit={handleSubmit} className="p-5">
         <div className="mb-4">
           <label
