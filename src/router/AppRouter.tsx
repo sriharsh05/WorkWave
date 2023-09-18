@@ -3,7 +3,7 @@ import { User } from "../types/UserTypes";
 import About from "../components/About";
 import { Suspense, lazy } from "react";
 import LoadingSpinner from "../components/LoadingSpinner";
-import Stages from "../components/Stages";
+import Stages from "../components/Stages/Stages";
 
 const Boards = lazy(() => import("../components/Boards/Boards"));
 

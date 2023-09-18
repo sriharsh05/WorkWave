@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Board, Stage } from "../types/boardTypes";
-import { getBoardById, listStages } from "../utils/apiUtils";
-import LoadingSpinner from "./LoadingSpinner";
-import Modal from "./common/modal";
-import CreateStage from "./CreateStage";
-import EditBoard from "./Boards/EditBoard";
+import { Board, Stage } from "../../types/boardTypes";
+import { getBoardById, listStages } from "../../utils/apiUtils";
+import LoadingSpinner from "../LoadingSpinner";
+import Modal from "../common/modal";
+import CreateStage from "../CreateStage";
+import EditBoard from "../Boards/EditBoard";
 import { navigate } from "raviger";
+import { StageCard } from "./StageCard";
 
 
 const fetchStages = (
@@ -81,29 +82,7 @@ export default function Stages({ id }: { id: number }) {
         {loading ? (
           <LoadingSpinner />
         ) : (
-          <div>
-            {stages.length > 0 && (
-              <div className="flex-col flex justify-center items-center">
-                {stages
-                  .map((stage) => (
-                    <div
-                      className="flex w-full my-2 bg-slate-200 border rounded-lg border-gray-600 "
-                      key={stage.id}
-                    >
-                      <div className="flex flex-col w-full">
-                        <h2 className="flex font-medium text-lg px-2">
-                          {stage.title}
-                        </h2>
-                        <h2 className="flex px-2">{stage.description}</h2>
-                      </div>
-                    </div>
-                  ))}
-              </div>
-            )}
-            {stages.length === 0 && (
-              <p className="text-gray-700 mt-2">There are no stages created!</p>
-            )}
-          </div>
+          <StageCard stages={stages}/>
         )}
 
         <Modal Open={openStage} closeCB={() => setOpenStage(false)}>
