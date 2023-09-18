@@ -2,10 +2,8 @@ import React from "react";
 
 export default function DeleteBoard({
   deleteBoard,
-  deletedBoardID,
 }: {
-  deleteBoard: (id: number) => void;
-  deletedBoardID: number;
+  deleteBoard: () => void;
 }) {
   return (
     <div className="w-full max-w-lg divide-y divide-gray-200">
@@ -14,7 +12,7 @@ export default function DeleteBoard({
         <p className="text-xl">Do you want to delete the board?</p>
         <button
           onClick={() => {
-            deleteBoard(deletedBoardID);
+            deleteBoard();
           }}
           className="w-full px-3 mt-4 py-1  font-semibold rounded-sm  text-center text-md bg-red-500 text-white"
         >

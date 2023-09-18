@@ -27,17 +27,18 @@ export default function Boards() {
   const [{ search }, setQuery] = useQueryParams();
   const [searchString, setSearchString] = useState("");
   const [boards, setBoards] = useState<Board[]>([]);
-  const [openBoard, setOpenBoard] = useState(false);
-  const [deleteBoardModal, setDeleteBoardModal] = useState(false);
   const [offset, setOffset] = useState(0);
   const [count, setCount] = useState(0);
-  const [loading, setLoading] = useState(true);
   const [deletedBoardID, setDeletedBoardID] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [openBoard, setOpenBoard] = useState(false);
+  const [deleteBoardModal, setDeleteBoardModal] = useState(false);
+
   const limit = 4;
 
-  const deleteLocalBoard = (id: number) => {
-    setBoards((board) => board.filter((board) => board.id !== id));
-    deleteBoard(id).then(() =>
+  const deleteLocalBoard = () => {
+    setBoards((board) => board.filter((board) => board.id !== deletedBoardID));
+    deleteBoard(deletedBoardID).then(() =>
       fetchBoards(setBoards, setCount, setLoading, offset, limit)
     );
     setDeleteBoardModal(false);
@@ -179,7 +180,6 @@ export default function Boards() {
         >
           <DeleteBoard
             deleteBoard={deleteLocalBoard}
-            deletedBoardID={deletedBoardID}
           />
         </Modal>
       </div>
