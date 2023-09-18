@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Board, Stage, TaskData } from "../../types/boardTypes";
-import { getBoardById, listStages, deleteStage, listTasks } from "../../utils/apiUtils";
+import { getBoardById, listStages, deleteStage, listTasks, deleteTask } from "../../utils/apiUtils";
 import LoadingSpinner from "../LoadingSpinner";
 import Modal from "../common/modal";
 import CreateStage from "./CreateStage";
@@ -10,6 +10,7 @@ import { StageCard } from "./StageCard";
 import DeleteStage from "./DeleteStage";
 import EditStage from "./EditStage";
 import CreateTask from "../Tasks/CreateTask";
+import DeleteTask from "../Tasks/DeleteTask";
 
 
 const fetchStages = (
@@ -45,11 +46,13 @@ export default function Stages({ id }: { id: number }) {
   const [stages, setStages] = useState<Stage[]>([]);
   const [tasks, setTasks] = useState<TaskData[]>([]);
   const [stageID, setStageID] = useState(0);
+  const [taskID, setTaskID] = useState(0);
   const [openStage, setOpenStage] = useState(false);
   const [openEditStage, setOpenEditStage] = useState(false);
   const [openDeleteStage, setOpenDeleteStage] = useState(false);
   const [openEditBoard, setOpenEditBoard] = useState(false);
   const [openTask, setOpenTask] = useState(false);
+  const [openDeleteTask, setOpenDeleteTask] = useState(false);
   const [loading, setLoading] = useState(true);
   const [board, setBoard] = useState<Board>({
     id: Number(new Date()),
@@ -83,6 +86,11 @@ export default function Stages({ id }: { id: number }) {
     setOpenDeleteStage(true);
   };
 
+  const deleteTaskByIdCB = (taskID: number) => {
+    setTaskID(taskID);
+    setOpenDeleteTask(true);
+  };
+
   const editStageByIdCB = (stageID: number) => {
     setStageID(stageID);
     setOpenEditStage(true);
@@ -108,6 +116,12 @@ export default function Stages({ id }: { id: number }) {
     setOpenEditStage(false);
   }
 
+  const deleteLocalTaskCB = async () => {
+    await deleteTask(taskID, id);
+    setTasks((tasks) => tasks.filter((task) => task.id !== taskID));
+    setOpenDeleteTask(false);
+  };
+  
   useEffect(() => fetchBoard(id, setBoard,setTasks), [id]);
 
   useEffect(() => fetchStages(setStages, setLoading),[]);
@@ -147,6 +161,7 @@ export default function Stages({ id }: { id: number }) {
           .map((stage) => (
           <StageCard key={stage.id} stage={stage}  deleteStageById={deleteStageByIdCB} editStageById={editStageByIdCB} 
           createTask={createTaskCB}
+          deleteTaskById= {deleteTaskByIdCB}
           tasks={tasks.filter(
             (task) =>
               task.status_object?.id === stage.id )}
@@ -180,6 +195,10 @@ export default function Stages({ id }: { id: number }) {
 
       <Modal Open={openTask} closeCB={() => setOpenTask(false)}>
         <CreateTask boardID={id} stageId={stageID} addNewTask={addLocalTaskCB} />
+      </Modal>
+
+      <Modal Open={openDeleteTask} closeCB={() => setOpenDeleteTask(false)}>
+        <DeleteTask deleteTask={deleteLocalTaskCB} />
       </Modal>
         
       </div>

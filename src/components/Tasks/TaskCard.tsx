@@ -4,13 +4,16 @@ import { EditIcon, TrashIcon } from "../icons";
 
 export const TaskCard = ({
   task,
+  deleteTaskById
 }: {
   task: TaskData;
+  deleteTaskById: (taskID: number) => void;
 }) => {
   return (
 
         <div
           className="flex flex-col w-full bg-slate-400 rounded-lg  p-3 my-2"
+          key={task.id}
         >
           <div className="flex flex-row justify-between">
             <div className="flex flex-col">
@@ -24,7 +27,7 @@ export const TaskCard = ({
                       <EditIcon />
                     </button>  
             <button
-                      onClick={() => task.id}
+                      onClick={() => task.id && deleteTaskById(task.id)}
                       className="flex mx-1 text-slate-600 hover:text-slate-800"
                     >
                       <TrashIcon/>

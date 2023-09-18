@@ -121,3 +121,7 @@ export const listTasks = async (boardID: number) => {
 export const createTask = (boardID: number, payloadTask: Task) => {
   return request(`boards/${boardID}/tasks/`, "POST", payloadTask);
 };
+
+export const deleteTask = (taskID: number, boardID: number) => {
+  return request(`boards/${boardID}/tasks/${taskID}/`, "DELETE");
+};
