@@ -1,9 +1,11 @@
 import { Stage } from "../../types/boardTypes";
 
 export const StageCard = ({
-    stages
+    stages,
+    deleteStageById
 }:{
     stages : Stage[];
+    deleteStageById: (stageID: number) => void;
 }) =>{
    return (
     <div>
@@ -16,6 +18,12 @@ export const StageCard = ({
               className="flex flex-col min-w-[25%] my-2 bg-slate-200 border rounded-lg border-gray-600 "
               key={stage.id}
             >
+                <button
+            onClick={() => stage.id && deleteStageById(stage.id)}
+            className=" text-red-300 hover:text-red-500"
+          >
+            Delete
+          </button>
               <div className="flex flex-col w-full">
                 <h2 className="flex font-medium text-lg px-2">
                   {stage.title}

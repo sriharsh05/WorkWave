@@ -98,3 +98,7 @@ export const createStage = (stage: Stage) => {
 export const listStages = () => {
   return request("status/", "GET");
 };
+
+export const deleteStage = (stageID: number) => {
+  return request(`status/${stageID}/`, "DELETE");
+};

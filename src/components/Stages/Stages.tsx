@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Board, Stage } from "../../types/boardTypes";
-import { getBoardById, listStages } from "../../utils/apiUtils";
+import { getBoardById, listStages, deleteStage } from "../../utils/apiUtils";
 import LoadingSpinner from "../LoadingSpinner";
 import Modal from "../common/modal";
 import CreateStage from "../CreateStage";
 import EditBoard from "../Boards/EditBoard";
 import { navigate } from "raviger";
 import { StageCard } from "./StageCard";
+import DeleteStage from "./DeleteStage";
 
 
 const fetchStages = (
@@ -36,7 +37,9 @@ const fetchBoard = (
 
 export default function Stages({ id }: { id: number }) {
   const [stages, setStages] = useState<Stage[]>([]);
+  const [deleteStageID, setDeleteStageID] = useState(0);
   const [openStage, setOpenStage] = useState(false);
+  const [openDeleteStage, setOpenDeleteStage] = useState(false);
   const [openEditBoard, setOpenEditBoard] = useState(false);
   const [loading, setLoading] = useState(true);
   const [board, setBoard] = useState<Board>({
@@ -48,6 +51,17 @@ export default function Stages({ id }: { id: number }) {
   const createStageCB = (stage: Stage) => {
     setStages((stages) => [...stages, stage]);
     setOpenStage(false);
+  };
+
+  const deleteStageIdCB = (stageID: number) => {
+    setDeleteStageID(stageID);
+    setOpenDeleteStage(true);
+  };
+
+  const deleteLocalStage = async () => {
+    await deleteStage(deleteStageID);
+    setStages((stages) => stages.filter((stage) => stage.id !== deleteStageID));
+    setOpenDeleteStage(false);
   };
 
 
@@ -82,7 +96,7 @@ export default function Stages({ id }: { id: number }) {
         {loading ? (
           <LoadingSpinner />
         ) : (
-          <StageCard stages={stages}/>
+          <StageCard stages={stages} deleteStageById={deleteStageIdCB}/>
         )}
 
         <Modal Open={openStage} closeCB={() => setOpenStage(false)}>
@@ -91,6 +105,10 @@ export default function Stages({ id }: { id: number }) {
 
         <Modal Open={openEditBoard} closeCB={() => setOpenEditBoard(false)}>
         <EditBoard oldBoard={board} />
+      </Modal>
+
+      <Modal Open={openDeleteStage} closeCB={() => setOpenDeleteStage(false)}>
+        <DeleteStage deleteStage={deleteLocalStage} />
       </Modal>
         
       </div>
