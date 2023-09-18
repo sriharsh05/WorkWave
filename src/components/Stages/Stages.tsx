@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Board, Stage } from "../../types/boardTypes";
-import { getBoardById, listStages, deleteStage } from "../../utils/apiUtils";
+import { Board, Stage, TaskData } from "../../types/boardTypes";
+import { getBoardById, listStages, deleteStage, listTasks } from "../../utils/apiUtils";
 import LoadingSpinner from "../LoadingSpinner";
 import Modal from "../common/modal";
 import CreateStage from "../CreateStage";
@@ -9,6 +9,7 @@ import { navigate } from "raviger";
 import { StageCard } from "./StageCard";
 import DeleteStage from "./DeleteStage";
 import EditStage from "./EditStage";
+import CreateTask from "../Tasks/CreateTask";
 
 
 const fetchStages = (
@@ -26,6 +27,7 @@ const fetchStages = (
 const fetchBoard = (
   id: number,
   setBoard: (board: Board) => void, 
+  setTasks: (tasks: TaskData[]) => void,
 ) => {
   getBoardById(id).then((data) => {  
     if (!data) {
@@ -33,16 +35,21 @@ const fetchBoard = (
       return;
     } else setBoard(data);
   });
+  listTasks(id).then((data) => {
+    setTasks(data);
+  });
 };
 
 
 export default function Stages({ id }: { id: number }) {
   const [stages, setStages] = useState<Stage[]>([]);
+  const [tasks, setTasks] = useState<TaskData[]>([]);
   const [stageID, setStageID] = useState(0);
   const [openStage, setOpenStage] = useState(false);
   const [openEditStage, setOpenEditStage] = useState(false);
   const [openDeleteStage, setOpenDeleteStage] = useState(false);
   const [openEditBoard, setOpenEditBoard] = useState(false);
+  const [openTask, setOpenTask] = useState(false);
   const [loading, setLoading] = useState(true);
   const [board, setBoard] = useState<Board>({
     id: Number(new Date()),
@@ -66,6 +73,11 @@ export default function Stages({ id }: { id: number }) {
     setOpenStage(false);
   };
 
+  const addLocalTaskCB = (task: TaskData) => {
+    setTasks((tasks) => [...tasks, task]);
+    setOpenTask(false);
+  };
+
   const deleteStageByIdCB = (stageID: number) => {
     setStageID(stageID);
     setOpenDeleteStage(true);
@@ -75,6 +87,11 @@ export default function Stages({ id }: { id: number }) {
     setStageID(stageID);
     setOpenEditStage(true);
   };
+
+  const createTaskCB = (stageID: number) => {
+    setStageID(stageID);
+    setOpenTask(true);
+  }
 
   const deleteLocalStageCB = async () => {
     await deleteStage(stageID);
@@ -91,7 +108,7 @@ export default function Stages({ id }: { id: number }) {
     setOpenEditStage(false);
   }
 
-  useEffect(() => fetchBoard(id, setBoard), [id]);
+  useEffect(() => fetchBoard(id, setBoard,setTasks), [id]);
 
   useEffect(() => fetchStages(setStages, setLoading),[]);
   
@@ -122,7 +139,27 @@ export default function Stages({ id }: { id: number }) {
         {loading ? (
           <LoadingSpinner />
         ) : (
-          <StageCard stages={stages} deleteStageById={deleteStageByIdCB} editStageById={editStageByIdCB}/>
+          <div>
+     {stages.length > 0 && (
+      <div className="p-2">
+      <div className="flex flex-row  gap-2">
+        {stages
+          .map((stage) => (
+          <StageCard key={stage.id} stage={stage}  deleteStageById={deleteStageByIdCB} editStageById={editStageByIdCB} 
+          createTask={createTaskCB}
+          tasks={tasks.filter(
+            (task) =>
+              task.status_object?.id === stage.id )}
+          />
+          ))} 
+
+         </div>
+     </div>
+        )}
+        {stages.length === 0 && (
+          <p className="text-gray-700 mt-2">There are no stages created!</p>
+        )}
+      </div> 
         )}
 
         <Modal Open={openStage} closeCB={() => setOpenStage(false)}>
@@ -139,6 +176,10 @@ export default function Stages({ id }: { id: number }) {
 
       <Modal Open={openEditStage} closeCB={() => setOpenEditStage(false)}>
         <EditStage oldStage={stages.filter((stage) => stage.id === stageID)[0]} editStageCB ={editLocalStageCB}/>
+      </Modal>
+
+      <Modal Open={openTask} closeCB={() => setOpenTask(false)}>
+        <CreateTask boardID={id} stageId={stageID} addNewTask={addLocalTaskCB} />
       </Modal>
         
       </div>

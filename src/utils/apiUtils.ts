@@ -1,4 +1,4 @@
-import { Board, Stage } from "../types/boardTypes";
+import { Board, Stage,Task } from "../types/boardTypes";
 import { PaginationParams } from "../types/common";
 
 const API_BASE_URL = "https://reactforall.onrender.com/api/";
@@ -105,4 +105,19 @@ export const deleteStage = (stageID: number) => {
 
 export const updateStage = (stage: Stage) => {
   return request(`status/${stage.id}/`, "PATCH", stage);
+};
+
+
+export const listTasks = async (boardID: number) => {
+  const { results }: { results: Task[] } = await request(`boards/${boardID}/tasks/`,"GET");
+  return results.map((task) => {
+    return {
+      ...task,
+      description: JSON.parse(task.description),
+    };
+  });
+};
+
+export const createTask = (boardID: number, payloadTask: Task) => {
+  return request(`boards/${boardID}/tasks/`, "POST", payloadTask);
 };
