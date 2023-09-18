@@ -4,8 +4,10 @@ import { Board, Errors, validateBoard } from "../../types/boardTypes";
 
 export default function EditBoard({
   oldBoard,
+  editBoardCB
 }: {
   oldBoard: Board;
+  editBoardCB: (board: Board) => void;
 }) {
   const [board, setBoard] = useState<Board>(oldBoard);
   const [errors, setErrors] = React.useState<Errors<Board>>({});
@@ -17,7 +19,7 @@ export default function EditBoard({
     if (Object.keys(validationErrors).length === 0) {
       try {
         board.id && (await updateBoard(board.id, board));
-        window.location.reload();
+        editBoardCB(board);
       } catch (error) {
         console.log(error);
       }

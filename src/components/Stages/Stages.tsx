@@ -50,6 +50,17 @@ export default function Stages({ id }: { id: number }) {
     description: "",
   });
 
+  const editBoardCB = (board: Board) => {
+    setBoard((oldBoard) => {
+      return {
+        ...oldBoard,
+        title: board.title,
+        description: board.description,
+      };
+    });
+    setOpenEditBoard(false);
+  };
+
   const createStageCB = (stage: Stage) => {
     setStages((stages) => [...stages, stage]);
     setOpenStage(false);
@@ -119,7 +130,7 @@ export default function Stages({ id }: { id: number }) {
         </Modal>
 
         <Modal Open={openEditBoard} closeCB={() => setOpenEditBoard(false)}>
-        <EditBoard oldBoard={board} />
+        <EditBoard oldBoard={board} editBoardCB={editBoardCB} />
       </Modal>
 
       <Modal Open={openDeleteStage} closeCB={() => setOpenDeleteStage(false)}>
