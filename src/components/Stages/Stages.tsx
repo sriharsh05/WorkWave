@@ -8,6 +8,7 @@ import EditBoard from "../Boards/EditBoard";
 import { navigate } from "raviger";
 import { StageCard } from "./StageCard";
 import DeleteStage from "./DeleteStage";
+import EditStage from "./EditStage";
 
 
 const fetchStages = (
@@ -37,8 +38,9 @@ const fetchBoard = (
 
 export default function Stages({ id }: { id: number }) {
   const [stages, setStages] = useState<Stage[]>([]);
-  const [deleteStageID, setDeleteStageID] = useState(0);
+  const [stageID, setStageID] = useState(0);
   const [openStage, setOpenStage] = useState(false);
+  const [openEditStage, setOpenEditStage] = useState(false);
   const [openDeleteStage, setOpenDeleteStage] = useState(false);
   const [openEditBoard, setOpenEditBoard] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -53,17 +55,30 @@ export default function Stages({ id }: { id: number }) {
     setOpenStage(false);
   };
 
-  const deleteStageIdCB = (stageID: number) => {
-    setDeleteStageID(stageID);
+  const deleteStageByIdCB = (stageID: number) => {
+    setStageID(stageID);
     setOpenDeleteStage(true);
   };
 
-  const deleteLocalStage = async () => {
-    await deleteStage(deleteStageID);
-    setStages((stages) => stages.filter((stage) => stage.id !== deleteStageID));
+  const editStageByIdCB = (stageID: number) => {
+    setStageID(stageID);
+    setOpenEditStage(true);
+  };
+
+  const deleteLocalStageCB = async () => {
+    await deleteStage(stageID);
+    setStages((stages) => stages.filter((stage) => stage.id !== stageID));
     setOpenDeleteStage(false);
   };
 
+  const editLocalStageCB = (stage:Stage) => {
+    setStages((stages) =>{
+      return stages.map((oldStage) =>{
+        return oldStage.id === stageID ? stage : oldStage;
+      })
+    });
+    setOpenEditStage(false);
+  }
 
   useEffect(() => fetchBoard(id, setBoard), [id]);
 
@@ -96,7 +111,7 @@ export default function Stages({ id }: { id: number }) {
         {loading ? (
           <LoadingSpinner />
         ) : (
-          <StageCard stages={stages} deleteStageById={deleteStageIdCB}/>
+          <StageCard stages={stages} deleteStageById={deleteStageByIdCB} editStageById={editStageByIdCB}/>
         )}
 
         <Modal Open={openStage} closeCB={() => setOpenStage(false)}>
@@ -108,7 +123,11 @@ export default function Stages({ id }: { id: number }) {
       </Modal>
 
       <Modal Open={openDeleteStage} closeCB={() => setOpenDeleteStage(false)}>
-        <DeleteStage deleteStage={deleteLocalStage} />
+        <DeleteStage deleteStage={deleteLocalStageCB} />
+      </Modal>
+
+      <Modal Open={openEditStage} closeCB={() => setOpenEditStage(false)}>
+        <EditStage oldStage={stages.filter((stage) => stage.id === stageID)[0]} editStageCB ={editLocalStageCB}/>
       </Modal>
         
       </div>
