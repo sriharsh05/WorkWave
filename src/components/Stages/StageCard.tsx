@@ -1,3 +1,4 @@
+import { Droppable } from "react-beautiful-dnd";
 import { Stage, TaskData } from "../../types/boardTypes";
 import { TaskCard } from "../Tasks/TaskCard";
 import { EditIcon, PlusIcon, TrashIcon } from "../icons";
@@ -20,10 +21,10 @@ export const StageCard = ({
     editTaskByIdCB: (taskID: number) =>void;
 }) =>{
    return (
-            <div
-              className="flex flex-col min-w-[25%] my-2 bg-slate-200 border rounded-lg border-gray-900 "
-              key={stage.id}
-                  >
+      <div
+          className="flex flex-col min-w-[25%] my-2 bg-slate-200 border rounded-lg border-gray-900 "
+          key={stage.id}
+           >
                <div className="flex flex-col w-full mt-2">
                 <div className="flex flex-row ">
                       <h2 className="flex font-medium text-lg px-2">
@@ -50,7 +51,10 @@ export const StageCard = ({
                 </div>
                     <h2 className="flex px-2">{stage.description}</h2>
                 </div>
-                <div className="mt-2">
+      <Droppable droppableId={`${stage.id}`}>
+        {(provided) =>  (
+            <div className={`${stage.id}`} {...provided.droppableProps} ref={provided.innerRef}>
+              <div className="mt-2">
                 {tasks.map((task, index) => (
                   <div className="m-3">
                     <TaskCard
@@ -59,11 +63,14 @@ export const StageCard = ({
                     deleteTaskById = {deleteTaskById}
                     editTaskByIdCB = {editTaskByIdCB}
                   />
-                  </div>
-                  
+                  </div> 
                 ))}
               </div>
-
+              {provided.placeholder}
             </div>
+          )
+        }
+      </Droppable>
+    </div>
    )
 }

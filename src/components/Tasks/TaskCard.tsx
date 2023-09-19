@@ -1,6 +1,8 @@
 import React from "react";
 import { TaskData } from "../../types/boardTypes";
 import { EditIcon, TrashIcon } from "../icons";
+import { Draggable } from "react-beautiful-dnd";
+
 
 export const TaskCard = ({
   task,
@@ -12,10 +14,17 @@ export const TaskCard = ({
   editTaskByIdCB: (taskID: number) => void;
 }) => {
   return (
-
+    <Draggable draggableId={`${task.id}`} index={task.id} key={task.id}>
+    {(provided,snapshot) => (
+       <div
+       ref={provided.innerRef}
+       {...provided.draggableProps}
+       {...provided.dragHandleProps}
+       className=" relative z-0"
+     >
         <div
-          className="flex flex-col w-full bg-slate-400 rounded-lg  p-3 my-2"
-          key={task.id}
+          className={`flex flex-col w-full bg-slate-400 rounded-lg  p-3 my-2 ${
+            snapshot.isDragging ? "border border-red-800" : ""}`}
         >
           <div className="flex flex-row justify-between">
             <div className="flex flex-col">
@@ -49,4 +58,7 @@ export const TaskCard = ({
             </div>
           </div>
         </div>
+        </div>
+        )}
+    </Draggable>
       )}

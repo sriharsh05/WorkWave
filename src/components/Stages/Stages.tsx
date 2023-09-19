@@ -12,6 +12,7 @@ import EditStage from "./EditStage";
 import CreateTask from "../Tasks/CreateTask";
 import DeleteTask from "../Tasks/DeleteTask";
 import EditTask from "../Tasks/EditTask";
+import { DragDropContext, DropResult } from "react-beautiful-dnd";
 
 
 const fetchStages = (
@@ -142,6 +143,12 @@ export default function Stages({ id }: { id: number }) {
     setOpenEditTask(false);
   };
 
+  const handleDragEnd = (result: DropResult) => {
+    const { destination, source } = result;
+    if (!destination) return;
+    if (destination.index === source.index) return;
+  };
+
   useEffect(() => fetchBoard(id, setBoard,setTasks), [id]);
 
   useEffect(() => fetchStages(setStages, setLoading),[]);
@@ -173,7 +180,9 @@ export default function Stages({ id }: { id: number }) {
         {loading ? (
           <LoadingSpinner />
         ) : (
-          <div>
+         
+    <div>
+    <DragDropContext onDragEnd={(result)=> handleDragEnd(result)}> 
      {stages.length > 0 && (
       <div className="p-2">
       <div className="flex flex-row  gap-2">
@@ -197,6 +206,7 @@ export default function Stages({ id }: { id: number }) {
         {stages.length === 0 && (
           <p className="text-gray-700 mt-2">There are no stages created!</p>
         )}
+      </DragDropContext> 
       </div> 
         )}
 
