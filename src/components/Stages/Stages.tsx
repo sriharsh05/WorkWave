@@ -56,6 +56,10 @@ export default function Stages({ id }: { id: number }) {
   const [openEditBoard, setOpenEditBoard] = useState(false);
   const [openTask, setOpenTask] = useState(false);
   const [openDeleteTask, setOpenDeleteTask] = useState(false);
+  const [openOverdue, setOpenOverdue] = useState(false);
+  const [openDueToday, setOpenDueToday] = useState(false);
+  const [openDueTomorrow, setOpenDueTomorrow] = useState(false);
+  const [openDueLater, setOpenDueLater] = useState(false);
   const [loading, setLoading] = useState(true);
   const [board, setBoard] = useState<Board>({
     id: Number(new Date()),
@@ -168,6 +172,13 @@ export default function Stages({ id }: { id: number }) {
     dropLocalTask(Number(draggableId),Number(destination.droppableId));
   }
 
+  const filterTasks = (tasks: TaskData[], stage: Stage) => {
+    return (
+      tasks.filter(
+        (task) =>
+          task.status_object?.id === stage.id)
+    )
+  }
 
   useEffect(() => fetchBoard(id, setBoard,setTasks), [id]);
 
@@ -197,6 +208,44 @@ export default function Stages({ id }: { id: number }) {
           </div>
         </div>
 
+        <div className="my-3">
+            <div
+              className={`inline-block hover:cursor-pointer rounded-full bg-slate-500 mr-3 px-2 py-1 text-sm font-semibold select-none ${
+                openOverdue
+                  ? "border-2 border-slate-900 bg-slate-700 text-gray-200"
+                  : " text-gray-800" }`}
+              onClick={() => setOpenOverdue((prev) => !prev)}
+            >
+              <p className="inline pl-1">Overdue</p>
+            </div>
+            <div
+              className={`inline-block hover:cursor-pointer rounded-full bg-slate-500 mr-3 px-2 py-1 text-sm font-semibold select-none ${
+                openDueToday
+                  ? "border-2 border-slate-900 bg-slate-700 text-gray-200"
+                  : "text-gray-800"}`}
+              onClick={() => setOpenDueToday((prev) => !prev)}
+            > 
+              <p className="inline pl-1">Due Today</p>
+            </div>
+            <div
+              className={` inline-block hover:cursor-pointer rounded-full bg-slate-500 mr-3 px-2 py-1 text-sm font-semibold select-none ${
+                openDueTomorrow
+                  ? "border-2 border-slate-900 bg-slate-700 text-gray-200"
+                  : "text-gray-800"}`}
+              onClick={() => setOpenDueTomorrow((prev) => !prev)}
+            >
+              <p className="inline pl-1">Due Tomorrow</p>
+            </div>
+            <div
+              className={`inline-block hover:cursor-pointer rounded-full bg-slate-500 mr-3 px-2 py-1 text-sm font-semibold select-none ${
+                openDueLater
+                  ? "border-2 border-slate-900 bg-slate-700 text-gray-200"
+                  : "text-gray-800" }`}
+              onClick={() => setOpenDueLater((prev) => !prev)}
+            >
+              <p className="inline pl-1">Due Later</p>
+            </div>
+          </div>
         {loading ? (
           <LoadingSpinner />
         ) : (
@@ -214,9 +263,7 @@ export default function Stages({ id }: { id: number }) {
           createTask={createTaskCB}
           deleteTaskById= {deleteTaskByIdCB}
           editTaskByIdCB={editTaskByIdCB}
-          tasks={tasks.filter(
-            (task) =>
-              task.status_object?.id === stage.id )}
+          tasks={filterTasks(tasks, stage)}
           />
           ))} 
 
