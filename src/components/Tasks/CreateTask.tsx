@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { createTask } from "../../utils/apiUtils";
-import {  Errors, TaskData, validateTask } from "../../types/boardTypes";
+import { Errors, TaskData, validateTask } from "../../types/boardTypes";
 
 export default function CreateTask({
-    boardID,
-    stageId,
-    addNewTask,
-  }: {
-    boardID: number;
-    stageId: number;
-    addNewTask: (task: TaskData) => void;
-  }) {
+  boardID,
+  stageId,
+  addNewTask,
+}: {
+  boardID: number;
+  stageId: number;
+  addNewTask: (task: TaskData) => void;
+}) {
   const [task, setTask] = useState<TaskData>({
     id: Number(new Date()),
     title: "",
@@ -36,7 +36,10 @@ export default function CreateTask({
           ...task,
           description: JSON.stringify(task.description),
         };
-        const { title, id, status_object } = await createTask(boardID, payloadTask);
+        const { title, id, status_object } = await createTask(
+          boardID,
+          payloadTask
+        );
         const createdTask = {
           id: id,
           title: title,
@@ -45,7 +48,7 @@ export default function CreateTask({
           status_object: {
             id: status_object.id,
           },
-        }
+        };
         addNewTask(createdTask);
       } catch (error) {
         console.log(error);
@@ -94,9 +97,9 @@ export default function CreateTask({
               setTask({
                 ...task,
                 description: {
-                    ...task.description,
-                    taskDescription: e.target.value,
-                  }
+                  ...task.description,
+                  taskDescription: e.target.value,
+                },
               })
             }
             className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-slate-600 sm:text-sm sm:leading-6"
@@ -106,59 +109,60 @@ export default function CreateTask({
           )}
         </div>
         <div className="mb-4">
-        <label
+          <label
             htmlFor="priority"
             className={`${errors.description ? "text-red-500" : ""}`}
           >
             Priority
           </label>
-            <select
-              name="title"
-              id="priority"
-              value={task.description.taskPriority}
-              onChange={(e) =>
-                setTask({
-                  ...task,
-                  description: {
-                    ...task.description,
-                    taskPriority: e.target.value as TaskData["description"]["taskPriority"],
-                  },
-                })
-              }
-              className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-slate-600 sm:text-sm sm:leading-6"
-              >
-              <option value="High">High</option>
-              <option value="Medium">Medium</option>
-              <option value="Low">Low</option>
-            </select>
-          </div>
-          <div className="mb-4">
+          <select
+            name="title"
+            id="priority"
+            value={task.description.taskPriority}
+            onChange={(e) =>
+              setTask({
+                ...task,
+                description: {
+                  ...task.description,
+                  taskPriority: e.target
+                    .value as TaskData["description"]["taskPriority"],
+                },
+              })
+            }
+            className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-slate-600 sm:text-sm sm:leading-6"
+          >
+            <option value="High">High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option>
+          </select>
+        </div>
+        <div className="mb-4">
           <label
             htmlFor="date"
             className={`${errors.description ? "text-red-500" : ""}`}
           >
             Due Date
           </label>
-            <input
-              type="date"
-              name="date"
-              id="date"
-              required
-              value={task.description.dueDate}
-              onChange={(e) =>
-                setTask((task) => {
-                  return {
-                    ...task,
-                    description: {
-                      ...task.description,
-                      dueDate: e.target.value,
-                    },
-                  };
-                })
-              }
-              className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-slate-600 sm:text-sm sm:leading-6"
-              />
-          </div>
+          <input
+            type="date"
+            name="date"
+            id="date"
+            required
+            value={task.description.dueDate}
+            onChange={(e) =>
+              setTask((task) => {
+                return {
+                  ...task,
+                  description: {
+                    ...task.description,
+                    dueDate: e.target.value,
+                  },
+                };
+              })
+            }
+            className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-slate-600 sm:text-sm sm:leading-6"
+          />
+        </div>
         <button
           type="submit"
           className="flex w-full justify-center rounded-md bg-slate-900 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-slate-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-600"

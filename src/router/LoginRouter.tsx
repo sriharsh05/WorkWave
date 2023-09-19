@@ -1,6 +1,6 @@
 import { useRoutes } from "raviger";
-import SignIn from "../components/SignIn";
-import SignUp from "../components/SignUp";
+import SignIn from "../components/auth/SignIn";
+import SignUp from "../components/auth/SignUp";
 
 export default function LoginRouter() {
   const routes = {

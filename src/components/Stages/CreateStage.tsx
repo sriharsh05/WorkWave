@@ -3,10 +3,10 @@ import { Stage, Errors, validateStage } from "../../types/boardTypes";
 import { createStage } from "../../utils/apiUtils";
 
 export default function CreateStage({
-    addNewStage,
-  }: {
-    addNewStage: (stage: Stage) => void;
-  }) {
+  addNewStage,
+}: {
+  addNewStage: (stage: Stage) => void;
+}) {
   const [stage, setStage] = useState<Stage>({
     id: Number(new Date()),
     title: "",

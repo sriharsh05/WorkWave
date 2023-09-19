@@ -5,7 +5,7 @@ export const NavBar = () => {
   return (
     <div className="flex flex-col bg-slate-700 p-2 mr-2 justify-between w-full fixed">
       <div className="flex gap-2 items-center text-white">
-        <h2 className="flex items-center p-2 mx-2 rounded-lg">Work Wave</h2>
+        <h2 className="flex items-center p-2 mx-2 rounded-lg font-extrabold">Work Wave</h2>
         <div className="flex flex-row">
           <ActiveLink
             href="/boards"

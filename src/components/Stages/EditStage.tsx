@@ -7,7 +7,7 @@ export default function EditStage({
   editStageCB,
 }: {
   oldStage: Stage;
-  editStageCB: (stage:Stage) => void;
+  editStageCB: (stage: Stage) => void;
 }) {
   const [stage, setStage] = useState<Stage>(oldStage);
   const [errors, setErrors] = React.useState<Errors<Stage>>({});

@@ -1,19 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { User } from './types/UserTypes';
-import LoginRouter from './router/LoginRouter';
-import AppRouter from './router/AppRouter';
-import { me } from './utils/apiUtils';
-import AppContainer from './AppContainer';
+import React, { useEffect, useState } from "react";
+import { User } from "./types/UserTypes";
+import LoginRouter from "./router/LoginRouter";
+import AppRouter from "./router/AppRouter";
+import { me } from "./utils/apiUtils";
+import AppContainer from "./AppContainer";
 
 function App() {
-
-  const  getCurrentUser = async (setCurrentUser:(currentUser: User) => void ) => {
+  const getCurrentUser = async (
+    setCurrentUser: (currentUser: User) => void
+  ) => {
     const currentUser = await me();
     if (currentUser.username === "") {
       localStorage.removeItem("token");
     }
     setCurrentUser(currentUser);
-  }
+  };
 
   const [currentUser, setCurrentUser] = useState<User>({
     username: null,
@@ -26,17 +27,16 @@ function App() {
   }, []);
 
   return (
-      <div className='h-full'>
+    <div className="h-full">
       {currentUser.username && currentUser.username?.length > 0 ? (
         <AppContainer>
-       <AppRouter currentUser={currentUser} />
-       </AppContainer>
+          <AppRouter currentUser={currentUser} />
+        </AppContainer>
       ) : (
         <LoginRouter />
       )}
-      </div>
+    </div>
   );
-  
 }
 
 export default App;

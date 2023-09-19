@@ -1,4 +1,4 @@
-import { Board, Stage,Task, TaskData } from "../types/boardTypes";
+import { Board, Stage, Task, TaskData } from "../types/boardTypes";
 import { PaginationParams } from "../types/common";
 
 const API_BASE_URL = "https://reactforall.onrender.com/api/";
@@ -61,7 +61,7 @@ export const signup = (
   username: string,
   email: string,
   password1: string,
-  password2: string,
+  password2: string
 ) => {
   return request("auth/registration/", "POST", {
     username,
@@ -76,8 +76,8 @@ export const createBoard = (board: Board) => {
 };
 
 export const listBoards = (pageParams: PaginationParams) => {
-  return request('boards/', 'GET', pageParams);
-}
+  return request("boards/", "GET", pageParams);
+};
 
 export const deleteBoard = (boardID: number) => {
   return request(`boards/${boardID}/`, "DELETE");
@@ -107,9 +107,11 @@ export const updateStage = (stage: Stage) => {
   return request(`status/${stage.id}/`, "PATCH", stage);
 };
 
-
 export const listTasks = async (boardID: number) => {
-  const { results }: { results: Task[] } = await request(`boards/${boardID}/tasks/`,"GET");
+  const { results }: { results: Task[] } = await request(
+    `boards/${boardID}/tasks/`,
+    "GET"
+  );
   return results.map((task) => {
     return {
       ...task,

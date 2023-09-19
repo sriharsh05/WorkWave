@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import {  updateBoard } from "../../utils/apiUtils";
+import { updateBoard } from "../../utils/apiUtils";
 import { Board, Errors, validateBoard } from "../../types/boardTypes";
 
 export default function EditBoard({
   oldBoard,
-  editBoardCB
+  editBoardCB,
 }: {
   oldBoard: Board;
   editBoardCB: (board: Board) => void;

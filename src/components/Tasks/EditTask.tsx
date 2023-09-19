@@ -9,7 +9,7 @@ export default function EditTask({
 }: {
   oldTask: TaskData;
   boardID: number;
-  editTaskCB: (task:TaskData) => void;
+  editTaskCB: (task: TaskData) => void;
 }) {
   const [task, setTask] = useState<TaskData>(oldTask);
   const [errors, setErrors] = React.useState<Errors<TaskData>>({});
@@ -28,17 +28,18 @@ export default function EditTask({
           status_object: {
             id: task.status_object?.id,
           },
-        }
-        payloadTask && (await updateTask(payloadTask,boardID)) &&
+        };
+        payloadTask &&
+          (await updateTask(payloadTask, boardID)) &&
           editTaskCB({
-          title: payloadTask.title,
-          description: payloadTask.description,
-          id:payloadTask.id,
-          status: payloadTask.status_object.id,
-          status_object: {
-            id: payloadTask.status_object.id,
-          },
-        });
+            title: payloadTask.title,
+            description: payloadTask.description,
+            id: payloadTask.id,
+            status: payloadTask.status_object.id,
+            status_object: {
+              id: payloadTask.status_object.id,
+            },
+          });
       } catch (error) {
         console.log(error);
       }
@@ -85,10 +86,10 @@ export default function EditTask({
             onChange={(e) =>
               setTask({
                 ...task,
-                description :{
+                description: {
                   ...task.description,
-                      taskDescription: e.target.value
-                }
+                  taskDescription: e.target.value,
+                },
               })
             }
             className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-slate-600 sm:text-sm sm:leading-6"
@@ -104,26 +105,26 @@ export default function EditTask({
           >
             Priority
           </label>
-            <select
-              name="title"
-              id="title"
-              value={task.description.taskPriority}
-              onChange={(event) =>
-                setTask({
-                  ...task,
-                  description: {
-                    ...task.description,
-                    taskPriority: event.target
-                      .value as TaskData["description"]["taskPriority"],
-                  },
-                })
-              }
-              className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-slate-600 sm:text-sm sm:leading-6"
-              >
-              <option value="High">High</option>
-              <option value="Medium">Medium</option>
-              <option value="Low">Low</option>
-            </select>
+          <select
+            name="title"
+            id="title"
+            value={task.description.taskPriority}
+            onChange={(event) =>
+              setTask({
+                ...task,
+                description: {
+                  ...task.description,
+                  taskPriority: event.target
+                    .value as TaskData["description"]["taskPriority"],
+                },
+              })
+            }
+            className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-slate-600 sm:text-sm sm:leading-6"
+          >
+            <option value="High">High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option>
+          </select>
         </div>
         <div className="mb-4">
           <label
@@ -132,25 +133,25 @@ export default function EditTask({
           >
             Due Date
           </label>
-            <input
-              type="date"
-              name="date"
-              id="date"
-              required
-              value={task.description.dueDate}
-              onChange={(event) =>
-                setTask((task) => {
-                  return {
-                    ...task,
-                    description: {
-                      ...task.description,
-                      dueDate: event.target.value,
-                    },
-                  };
-                })
-              }
-              className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-slate-600 sm:text-sm sm:leading-6"
-              />
+          <input
+            type="date"
+            name="date"
+            id="date"
+            required
+            value={task.description.dueDate}
+            onChange={(event) =>
+              setTask((task) => {
+                return {
+                  ...task,
+                  description: {
+                    ...task.description,
+                    dueDate: event.target.value,
+                  },
+                };
+              })
+            }
+            className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-slate-600 sm:text-sm sm:leading-6"
+          />
         </div>
         <button
           type="submit"

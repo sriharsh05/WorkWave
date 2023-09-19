@@ -18,12 +18,11 @@ export default function AppRouter({ currentUser }: { currentUser: User }) {
         <Boards />
       </Suspense>
     ),
-    "/boards/:id": ({id}: {id : string}) => (
+    "/boards/:id": ({ id }: { id: string }) => (
       <Suspense fallback={<LoadingSpinner />}>
-        <Stages  id={Number(id)} />
+        <Stages id={Number(id)} />
       </Suspense>
     ),
-
   };
   let routeResult = useRoutes(routes);
   return routeResult;

@@ -1,10 +1,6 @@
 import React from "react";
 
-export default function DeleteTask({
-  deleteTask,
-}: {
-  deleteTask: ( ) => void;
-}) {
+export default function DeleteTask({ deleteTask }: { deleteTask: () => void }) {
   return (
     <div className="w-full max-w-lg divide-y divide-gray-200">
       <h1 className="text-2xl my-2">Delete task</h1>

@@ -1,28 +1,21 @@
 import React, { useState } from "react";
 import { Link, navigate } from "raviger";
-import { login, signup } from "../utils/apiUtils";
-import LoadingSpinner from "./LoadingSpinner";
+import { login } from "../../utils/apiUtils";
+import LoadingSpinner from "../LoadingSpinner";
 
-const SignUp = () => {
+const SignIn = () => {
   const [username, setUsername] = useState<string>("");
-  const [email, setEmail] = useState("");
-  const [password1, setPassword1] = useState("");
-  const [password2, setPassword2] = useState("");
+  const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
       setLoading(true);
-      await signup(username, email, password1, password2);
-      const data = await login(username, password1);
-      if (data) {
-        localStorage.setItem("token", data.token);
-        window.location.reload();
-        navigate("/");
-      } else {
-        console.log("signup failed");
-      }
+      const data = await login(username, password);
+      localStorage.setItem("token", data.token);
+      navigate("/");
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }
@@ -30,11 +23,11 @@ const SignUp = () => {
 
   return (
     <div className="h-full">
-      <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
-        <div className="bg-slate-300 rounded-xl p-4">
+      <div className="min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+        <div className="bg-slate-300 rounded-xl p-10">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-              Sign up to your account
+              Sign in to your account
             </h2>
           </div>
 
@@ -63,25 +56,6 @@ const SignUp = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium leading-6 text-gray-900">
-                    Email
-                  </label>
-                  <div className="mt-2">
-                    <input
-                      required
-                      type="text"
-                      id="email"
-                      name="email"
-                      value={email}
-                      placeholder="email"
-                      autoComplete="email"
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-slate-600 sm:text-sm sm:leading-6"
-                    />
-                  </div>
-                </div>
-
-                <div>
                   <div className="flex items-center justify-between">
                     <label className="block text-sm font-medium leading-6 text-gray-900">
                       Password
@@ -89,31 +63,13 @@ const SignUp = () => {
                   </div>
                   <div className="mt-2">
                     <input
-                      id="password1"
-                      name="password1"
+                      id="password"
+                      name="password"
                       type="password"
-                      value={password1}
+                      value={password}
                       placeholder="Password"
-                      onChange={(e) => setPassword1(e.target.value)}
-                      className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-slate-600 sm:text-sm sm:leading-6"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <div className="flex items-center justify-between">
-                    <label className="block text-sm font-medium leading-6 text-gray-900">
-                      Confirm Password
-                    </label>
-                  </div>
-                  <div className="mt-2">
-                    <input
-                      id="password2"
-                      name="password2"
-                      type="password"
-                      value={password2}
-                      placeholder="Confirm Password"
-                      onChange={(e) => setPassword2(e.target.value)}
+                      autoComplete="current-password"
+                      onChange={(e) => setPassword(e.target.value)}
                       className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-slate-600 sm:text-sm sm:leading-6"
                     />
                   </div>
@@ -124,18 +80,18 @@ const SignUp = () => {
                     type="submit"
                     className="flex w-full justify-center rounded-md bg-slate-900 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-slate-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-600"
                   >
-                    Sign up
+                    Sign in
                   </button>
                 </div>
               </form>
 
               <p className="mt-10 text-center text-sm text-gray-500">
-                Already have an acccount?
+                Not a member?
                 <Link
-                  href="/signin"
+                  href="/signup"
                   className="font-semibold leading-6 p-1 text-slate-900 hover:text-slate-800"
                 >
-                  Log in
+                  Register
                 </Link>
               </p>
             </div>
@@ -145,4 +101,4 @@ const SignUp = () => {
     </div>
   );
 };
-export default SignUp;
+export default SignIn;
