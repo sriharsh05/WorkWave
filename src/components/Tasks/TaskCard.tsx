@@ -4,10 +4,12 @@ import { EditIcon, TrashIcon } from "../icons";
 
 export const TaskCard = ({
   task,
-  deleteTaskById
+  deleteTaskById,
+  editTaskByIdCB
 }: {
   task: TaskData;
   deleteTaskById: (taskID: number) => void;
+  editTaskByIdCB: (taskID: number) => void;
 }) => {
   return (
 
@@ -21,7 +23,7 @@ export const TaskCard = ({
               <p className="font-light">{task.description.taskDescription}</p>
             </div>
             <button
-                      onClick={() => task.id}
+                      onClick={() => task.id && editTaskByIdCB(task.id)}
                       className="flex mx-1 ml-auto text-slate-600 hover:text-slate-800"
                     >
                       <EditIcon />

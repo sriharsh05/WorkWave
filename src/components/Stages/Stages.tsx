@@ -11,6 +11,7 @@ import DeleteStage from "./DeleteStage";
 import EditStage from "./EditStage";
 import CreateTask from "../Tasks/CreateTask";
 import DeleteTask from "../Tasks/DeleteTask";
+import EditTask from "../Tasks/EditTask";
 
 
 const fetchStages = (
@@ -49,6 +50,7 @@ export default function Stages({ id }: { id: number }) {
   const [taskID, setTaskID] = useState(0);
   const [openStage, setOpenStage] = useState(false);
   const [openEditStage, setOpenEditStage] = useState(false);
+  const [openEditTask, setOpenEditTask] = useState(false);
   const [openDeleteStage, setOpenDeleteStage] = useState(false);
   const [openEditBoard, setOpenEditBoard] = useState(false);
   const [openTask, setOpenTask] = useState(false);
@@ -91,6 +93,11 @@ export default function Stages({ id }: { id: number }) {
     setOpenDeleteTask(true);
   };
 
+  const editTaskByIdCB = (taskID: number) => {
+    setTaskID(taskID);
+    setOpenEditTask(true);
+  };
+
   const editStageByIdCB = (stageID: number) => {
     setStageID(stageID);
     setOpenEditStage(true);
@@ -121,7 +128,20 @@ export default function Stages({ id }: { id: number }) {
     setTasks((tasks) => tasks.filter((task) => task.id !== taskID));
     setOpenDeleteTask(false);
   };
-  
+
+  const updateLocalTaskCB = (task: TaskData) => {
+    setTasks((tasks) => {
+      return tasks.map((oldTask) => {
+        if (oldTask.id === taskID) {
+          return task;
+        } else {
+          return oldTask;
+        }
+      });
+    });
+    setOpenEditTask(false);
+  };
+
   useEffect(() => fetchBoard(id, setBoard,setTasks), [id]);
 
   useEffect(() => fetchStages(setStages, setLoading),[]);
@@ -159,9 +179,12 @@ export default function Stages({ id }: { id: number }) {
       <div className="flex flex-row  gap-2">
         {stages
           .map((stage) => (
-          <StageCard key={stage.id} stage={stage}  deleteStageById={deleteStageByIdCB} editStageById={editStageByIdCB} 
+          <StageCard key={stage.id} stage={stage}  
+          deleteStageById={deleteStageByIdCB} 
+          editStageById={editStageByIdCB} 
           createTask={createTaskCB}
           deleteTaskById= {deleteTaskByIdCB}
+          editTaskByIdCB={editTaskByIdCB}
           tasks={tasks.filter(
             (task) =>
               task.status_object?.id === stage.id )}
@@ -199,6 +222,16 @@ export default function Stages({ id }: { id: number }) {
 
       <Modal Open={openDeleteTask} closeCB={() => setOpenDeleteTask(false)}>
         <DeleteTask deleteTask={deleteLocalTaskCB} />
+      </Modal>
+      <Modal
+        Open={openEditTask && taskID !== 0}
+        closeCB={() => setOpenEditTask(false)}
+      >
+        <EditTask
+          oldTask={tasks.filter((task) => task.id === taskID)[0]}
+          editTaskCB={updateLocalTaskCB}
+          boardID={id}
+        />
       </Modal>
         
       </div>

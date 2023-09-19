@@ -9,6 +9,7 @@ export const StageCard = ({
     editStageById,
     createTask,
     deleteTaskById,
+    editTaskByIdCB
 }:{
     stage : Stage;
     tasks: TaskData[];
@@ -16,6 +17,7 @@ export const StageCard = ({
     editStageById: (stageID: number) => void;
     createTask: (stageID: number) => void;
     deleteTaskById: (taskID: number) => void;
+    editTaskByIdCB: (taskID: number) =>void;
 }) =>{
    return (
             <div
@@ -55,6 +57,7 @@ export const StageCard = ({
                     key={task.id}
                     task={task}
                     deleteTaskById = {deleteTaskById}
+                    editTaskByIdCB = {editTaskByIdCB}
                   />
                   </div>
                   
