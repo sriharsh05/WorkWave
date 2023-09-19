@@ -13,6 +13,7 @@ import CreateTask from "../Tasks/CreateTask";
 import DeleteTask from "../Tasks/DeleteTask";
 import EditTask from "../Tasks/EditTask";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
+import { isDueLater, isDueTomorrow, isOverDue, isToday } from "../../utils/filterTasksUtils";
 
 
 const fetchStages = (
@@ -176,7 +177,14 @@ export default function Stages({ id }: { id: number }) {
     return (
       tasks.filter(
         (task) =>
-          task.status_object?.id === stage.id)
+          task.status_object?.id === stage.id  && 
+          (openOverdue || openDueToday || openDueTomorrow || openDueLater ? 
+              (openOverdue && isOverDue(new Date(task.description.dueDate))) || 
+              (openDueToday && isToday(new Date(task.description.dueDate))) ||
+              (openDueTomorrow && isDueTomorrow(new Date(task.description.dueDate))) ||
+              (openDueLater && isDueLater(new Date(task.description.dueDate)))  : true
+            )
+      ) 
     )
   }
 
