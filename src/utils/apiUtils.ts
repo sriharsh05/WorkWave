@@ -137,3 +137,9 @@ export const updateTask = (task: TaskData, boardID: number) => {
     stringifiedTask
   );
 };
+
+export const dropTask = (taskID: number, boardID: number, statusID: number) => {
+  return request(`boards/${boardID}/tasks/${taskID}/`, "PATCH", {
+    status: statusID,
+  });
+};

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Board, Stage, TaskData } from "../../types/boardTypes";
-import { getBoardById, listStages, deleteStage, listTasks, deleteTask } from "../../utils/apiUtils";
+import { getBoardById, listStages, deleteStage, listTasks, deleteTask, dropTask } from "../../utils/apiUtils";
 import LoadingSpinner from "../LoadingSpinner";
 import Modal from "../common/modal";
 import CreateStage from "./CreateStage";
@@ -143,11 +143,31 @@ export default function Stages({ id }: { id: number }) {
     setOpenEditTask(false);
   };
 
+  const dropLocalTask = (draggableId: number, droppableId: number) => {
+    setTasks((tasks) =>
+      tasks.map((task) => {
+        if (task.id === draggableId) {
+          return {
+            ...task,
+            status: droppableId,
+            status_object: {
+              id:droppableId,
+            },
+          };
+        } else {
+          return task;
+        }
+      })
+    );  
+  }
   const handleDragEnd = (result: DropResult) => {
-    const { destination, source } = result;
+    const { destination, source, draggableId } = result;
     if (!destination) return;
-    if (destination.index === source.index) return;
-  };
+    if (destination.droppableId === source.droppableId) return;
+    dropTask(Number(draggableId),id, Number(destination.droppableId));
+    dropLocalTask(Number(draggableId),Number(destination.droppableId));
+  }
+
 
   useEffect(() => fetchBoard(id, setBoard,setTasks), [id]);
 
