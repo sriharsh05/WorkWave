@@ -79,6 +79,10 @@ export const listBoards = (pageParams: PaginationParams) => {
   return request("boards/", "GET", pageParams);
 };
 
+export const listAllBoards = () => {
+  return request("boards/", "GET");
+};
+
 export const deleteBoard = (boardID: number) => {
   return request(`boards/${boardID}/`, "DELETE");
 };

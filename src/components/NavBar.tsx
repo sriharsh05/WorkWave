@@ -21,6 +21,13 @@ export const NavBar = () => {
           >
             <span className="flex-1 whitespace-nowrap">About</span>
           </ActiveLink>
+          <ActiveLink
+            href="/listTasks"
+            className="flex items-center p-2 mx-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-900 group"
+            exactActiveClass="border border-slate-200"
+          >
+            <span className="flex-1 whitespace-nowrap">Tasks</span>
+          </ActiveLink>
         </div>
 
         <div className="ml-auto">
