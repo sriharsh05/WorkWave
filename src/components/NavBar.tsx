@@ -11,21 +11,21 @@ export const NavBar = () => {
         <div className="flex flex-row">
           <ActiveLink
             href="/boards"
-            className="flex items-center justify-center p-2 text-gray-900 rounded-lg dark:text-white dark:hover:bg-slate-900 group"
+            className="flex items-center justify-center p-2 mx-1 text-gray-900 rounded-lg dark:text-white dark:hover:bg-slate-900 group"
             exactActiveClass="border border-slate-200"
           >
             <span className="flex-1 whitespace-nowrap">Home</span>
           </ActiveLink>
           <ActiveLink
             href="/listTasks"
-            className="flex items-center p-2 mx-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-900 group"
+            className="flex items-center p-2 mx-1 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-900 group"
             exactActiveClass="border border-slate-200"
           >
             <span className="flex-1 whitespace-nowrap">Tasks</span>
           </ActiveLink>
           <ActiveLink
             href="/about"
-            className="flex items-center p-2 mx-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-900 group"
+            className="flex items-center p-2 mx-1 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-900 group"
             exactActiveClass="border border-slate-200"
           >
             <span className="flex-1 whitespace-nowrap">About</span>
