@@ -1,5 +1,5 @@
 import React from "react";
-import { NavBar } from "./components/NavBar";
+import { NavBar } from "./NavBar";
 
 export default function AppContainer(props: { children: React.ReactNode }) {
   return (

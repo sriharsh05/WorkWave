@@ -3,7 +3,7 @@ import { User } from "./types/UserTypes";
 import LoginRouter from "./router/LoginRouter";
 import AppRouter from "./router/AppRouter";
 import { me } from "./utils/apiUtils";
-import AppContainer from "./AppContainer";
+import AppContainer from "./components/AppContainer";
 
 function App() {
   const getCurrentUser = async (
