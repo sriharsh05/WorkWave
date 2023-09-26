@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function About() {
+export const About = () => {
   return (
     <div className="flex flex-col items-center h-full text-gray-900 justify-center">
       <div className="text-3xl font-bold m-4">About WorkWave</div>

@@ -1,14 +1,14 @@
 import { Redirect, useRoutes } from "raviger";
 import { User } from "../types/UserTypes";
-import About from "../components/About";
 import { Suspense, lazy } from "react";
 import LoadingSpinner from "../components/LoadingSpinner";
+import { About } from "../components/About";
 
 const Boards = lazy(() => import("../components/Boards/Boards"));
 const Stages = lazy(() => import("../components/Stages/Stages"));
 const ListTasks = lazy(() => import("../components/ListTasks"));
 
-export default function AppRouter({ currentUser }: { currentUser: User }) {
+export default function AppRouter() {
   const routes = {
     "/": () => <Redirect to="/boards" />,
     "/signin": () => <Redirect to="/" />,

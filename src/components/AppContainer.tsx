@@ -1,7 +1,7 @@
 import React from "react";
 import { NavBar } from "./NavBar";
 
-export default function AppContainer(props: { children: React.ReactNode }) {
+export const AppContainer = (props: { children: React.ReactNode }) => {
   return (
     <div className="flex bg-gray-100 min-h-screen font-sans">
       <NavBar />
